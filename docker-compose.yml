@@ -1,0 +1,7 @@
+services:
+  dlls5-service:
+    build: .
+    container_name: dlls5-service
+    ports:
+      - "8000:8000"
+    restart: unless-stopped

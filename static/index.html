@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DLLS5-Service — Neural Rendering Studio</title>
+<style>
+  :root{ --acc:#76b900; --bg:#0d0f12; --card:#161a20; --txt:#e8eaed; --mut:#9aa0a6; }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--txt);font-family:'Segoe UI',system-ui,sans-serif;min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px}
+  h1{font-size:1.6rem;margin-bottom:4px}
+  h1 span{color:var(--acc)}
+  .sub{color:var(--mut);margin-bottom:20px;font-size:.9rem}
+  .card{background:var(--card);border:1px solid #262b33;border-radius:16px;padding:24px;width:100%;max-width:560px}
+  #drop{border:2px dashed #3a4150;border-radius:12px;padding:40px;text-align:center;color:var(--mut);cursor:pointer;transition:.2s;margin-bottom:16px}
+  #drop.over{border-color:var(--acc);color:var(--acc);background:#76b90011}
+  #drop img{max-width:100%;border-radius:8px;margin-top:10px}
+  select,input[type=range]{width:100%;margin:8px 0}
+  select{background:#0d0f12;color:var(--txt);border:1px solid #3a4150;border-radius:8px;padding:8px}
+  .row{display:flex;justify-content:space-between;font-size:.85rem;color:var(--mut)}
+  button{background:var(--acc);color:#0d0f12;border:none;border-radius:10px;padding:12px 24px;font-weight:700;font-size:1rem;cursor:pointer;width:100%;margin-top:12px}
+  button:disabled{opacity:.5;cursor:wait}
+  #out img{max-width:100%;border-radius:10px;margin-top:16px}
+  .sponsor{margin-top:24px;font-size:.75rem;color:var(--mut);text-align:center}
+  .sponsor b{color:var(--acc)}
+</style>
+</head>
+<body>
+<h1>🎮 <span>DLLS5</span>-Service</h1>
+<p class="sub">Self-hosted neural rendering & image enhancement · inspired by DLSS 5</p>
+
+<div class="card">
+  <div id="drop">📂 Drag & drop an image here<br><small>or click to browse</small>
+    <input type="file" id="file" accept="image/*" hidden>
+  </div>
+
+  <div class="row"><label>Preset</label></div>
+  <select id="preset">
+    <option value="photoreal">🖼️ Photoreal</option>
+    <option value="cinematic">🎬 Cinematic</option>
+    <option value="neon_night">🌃 Neon Night</option>
+    <option value="soft_skin">✨ Soft Skin</option>
+    <option value="golden_hour">🌅 Golden Hour</option>
+    <option value="noir">🎞️ Noir</option>
+  </select>
+
+  <div class="row"><label>Intensity</label><span id="iv">0.70</span></div>
+  <input type="range" id="intensity" min="0" max="1" step="0.05" value="0.7">
+
+  <div class="row"><label>Bloom</label><span id="bv">0.50</span></div>
+  <input type="range" id="bloom" min="0" max="1" step="0.05" value="0.5">
+
+  <div class="row"><label>Sharpness</label><span id="sv">0.40</span></div>
+  <input type="range" id="sharpness" min="0" max="1" step="0.05" value="0.4">
+
+  <div class="row"><label>Upscale</label></div>
+  <select id="scale"><option value="1">1x</option><option value="2" selected>2x</option><option value="3">3x</option></select>
+
+  <button id="go">⚡ Generate</button>
+  <div id="out"></div>
+</div>
+
+<p class="sponsor">☕ Sponsored by <b>[Your Brand Here]</b> — <a href="https://github.com/sponsors/groundboxerrespect" style="color:var(--mut)">become a sponsor</a></p>
+
+<script>
+const $=id=>document.getElementById(id);
+['intensity','bloom','sharpness'].forEach(k=>$(k).oninput=()=>$(k[0]+'v').textContent=$(k).value);
+const drop=$('drop'),file=$('file');
+drop.onclick=()=>file.click();
+drop.ondragover=e=>{e.preventDefault();drop.classList.add('over')};
+drop.ondragleave=()=>drop.classList.remove('over');
+drop.ondrop=e=>{e.preventDefault();drop.classList.remove('over');file.files=e.dataTransfer.files;preview()};
+file.onchange=preview;
+function preview(){if(file.files[0]){const r=new URL.createObjectURL(file.files[0]);drop.innerHTML='<img src="'+r+'">';drop.appendChild(file);}}
+$('go').onclick=async()=>{
+  if(!file.files[0])return alert('Choose an image first');
+  $('go').disabled=true;$('go').textContent='Rendering…';
+  const fd=new FormData();
+  fd.append('file',file.files[0]);
+  fd.append('preset',$('preset').value);
+  fd.append('intensity',$('intensity').value);
+  fd.append('bloom',$('bloom').value);
+  fd.append('sharpness',$('sharpness').value);
+  fd.append('scale',$('scale').value);
+  try{
+    const res=await fetch('/api/generate',{method:'POST',body:fd});
+    if(!res.ok)throw new Error(await res.text());
+    const blob=await res.blob();
+    const url=URL.createObjectURL(blob);
+    $('out').innerHTML='<a href="'+url+'" download="dlls5_render.png"><img src="'+url+'"></a>';
+  }catch(e){alert('Error: '+e.message)}
+  $('go').disabled=false;$('go').textContent='⚡ Generate';
+};
+</script>
+</body>
+</html>
