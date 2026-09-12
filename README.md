@@ -168,24 +168,9 @@ dlls5-service/
 
 ---
 
-## 🏆 Sponsors
 
-DLLS5-Service is free forever. Development is funded by sponsors — **your logo could be here.**
 
-<div align="center">
 
-### 💎 Platinum Sponsor
-*[Reserved — contact us]*
-
-### 🥇 Gold Sponsors
-| | | |
-|---|---|---|
-| 🟨 *[Your Brand]* | 🟨 *[Your Brand]* | 🟨 *[Your Brand]* |
-
-### ☕ Backers
-*[Your name here]*
-
-</div>
 
 **Sponsor benefits:**
 - 🖼️ Logo on the README (seen by thousands of devs & gamers)
